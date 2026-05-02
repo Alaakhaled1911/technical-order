@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="technical_order_view_tree" model="ir.ui.view">
+        <field name="name">technical.order.tree</field>
+        <field name="model">technical.order</field>
+        <field name="arch" type="xml">
+            <tree multi_edit="1">
+                <field name="ref"/>
+                <field name="request_name"/>
+                <field name="requested_by"/>
+                <field name="customer"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="total_price"/>
+                <field name="rejection_reason"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="technical_order_view_form" model="ir.ui.view">
+        <field name="name">technical.order.form</field>
+        <field name="model">technical.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+
+                    <header>
+                        <button name="action_create_so"
+                                string="Create SO"
+                                type="object"
+                                class="btn-primary"
+                                invisible="state != 'approve' or all_quantities_taken"/>
+                        <button name="action_submit"
+                                string="Submit for Approval"
+                                type="object"
+                                class="btn-primary"
+                                invisible="state != 'draft'"/>
+                        <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                invisible="state != 'draft'"/>
+                        <button name="action_approve"
+                                string="Approve"
+                                type="object"
+                                class="btn-primary"
+                                invisible="state != 'to_be_approved'"/>
+                        <button name="action_reject"
+                                string="Reject"
+                                type="object"
+                                invisible="state != 'to_be_approved'"/>
+                        <button name="action_draft"
+                                string="Reset to Draft"
+                                type="object"
+                                invisible="state != 'cancel'"/>
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="draft,to_be_approved,approve,reject,cancel"
+                               noclickable="1"/>
+                    </header>
+
+                    <!-- Title block -->
+                    <div class="oe_title">
+                        <label for="ref"/>
+                        <h1>
+                            <field name="ref" readonly="1"/>
+                        </h1>
+                        <label for="request_name"/>
+                        <h3>
+                            <field name="request_name"
+                                   readonly="state in ['approve','reject','cancel']"/>
+                        </h3>
+                    </div>
+
+
+                    <group>
+                        <group string="General Info">
+                            <field name="requested_by"
+                                   readonly="state in ['approve','reject','cancel']"/>
+                            <field name="customer"
+                                   readonly="state in ['approve','reject','cancel']"/>
+                            <field name="start_date"
+                                   readonly="state in ['approve','reject','cancel']"/>
+                            <field name="end_date"
+                                   readonly="state in ['approve','reject','cancel']"/>
+                        </group>
+                        <group string="Additional Info">
+                            <field name="rejection_reason"
+                                   readonly="state != 'reject'"/>
+                            <field name="total_price"
+                                   readonly="1"/>
+                            <field name="all_quantities_taken" invisible="1"/>
+                        </group>
+                    </group>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_so"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o"
+                                invisible="state != 'approve'">
+                            <field name="so_count" widget="statinfo" string="Sale Orders"/>
+                        </button>
+                    </div>
+                    <!-- Order lines  -->
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="order_line_ids"
+                                   readonly="state in ['approve','reject','cancel']">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="price"/>
+                                    <field name="total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_technical_order" model="ir.actions.act_window">
+        <field name="name">Technical Orders</field>
+        <field name="res_model">technical.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_order_number" model="ir.sequence">
+            <field name="name">Order Number</field>
+            <field name="code">technical.order.number</field>
+            <field name="prefix">TO</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

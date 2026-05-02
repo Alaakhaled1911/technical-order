@@ -1,0 +1,15 @@
+<odoo>
+    <menuitem
+        id="sales_orders_root_menu"
+        name=" Store Orders"
+
+    />
+
+    <menuitem
+        id="order_menu"
+        name="Order"
+        parent="sales_orders_root_menu"
+        action="action_technical_order"
+    />
+
+</odoo>
