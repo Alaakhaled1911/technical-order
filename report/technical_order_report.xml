@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- REPORT ACTION -->
+    
     <record id="action_technical_order_report" model="ir.actions.report">
         <field name="name">Technical Order Report</field>
         <field name="model">technical.order</field>
@@ -12,7 +12,7 @@
         <field name="binding_type">report</field>
     </record>
 
-    <!-- REPORT TEMPLATE -->
+   
     <template id="report_technical_order">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
